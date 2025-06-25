@@ -8,7 +8,7 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://<your-repl>.repl.co/api/ask-agent", { query });
+      const res = await axios.post("https://2fff82af-7bc7-4cce-ae93-6c1e0124be05-00-bsa72gjdnft0.spock.replit.dev/", { query });
       setResponse(res.data.response);
     } catch (err) {
       console.error(err);
