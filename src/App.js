@@ -1,23 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import axios from "axios";
 
 function App() {
+  const [query, setQuery] = useState("");
+  const [response, setResponse] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post("https://<your-repl>.repl.co/api/ask-agent", { query });
+      setResponse(res.data.response);
+    } catch (err) {
+      console.error(err);
+      setResponse("Error: could not reach server.");
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ padding: "2rem" }}>
+      <h2>Talk to Your AI Agent</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Enter query"
+          style={{ width: "300px" }}
+        />
+        <button type="submit" style={{ marginLeft: "1rem" }}>Send</button>
+      </form>
+      {response && (
+        <div style={{ marginTop: "1rem" }}>
+          <strong>Response:</strong>
+          <p>{response}</p>
+        </div>
+      )}
     </div>
   );
 }
